@@ -65,7 +65,7 @@
       may happen.</p>
       
       <p><opt>exec:PROGRAM</opt> Fork off a process and use its STDIN
-      and STDOU pipes.</p>
+      and STDOUT pipes.</p>
 
       <p><opt>tty:DEVICE</opt> Open a TTY device (like
       <opt>/dev/ttyS0</opt>). If you want to change TTY parameters
