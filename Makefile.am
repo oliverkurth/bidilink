@@ -16,7 +16,7 @@
 # along with bidilink; if not, write to the Free Software Foundation,
 # Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
 
-EXTRA_DIST=bootstrap.sh README LICENSE
+EXTRA_DIST=bootstrap.sh README LICENSE debian/changelog debian/compat debian/control debian/copyright debian/dirs debian/docs debian/rules
 SUBDIRS=src doc man
 
 MAINTAINERCLEANFILES = README
@@ -37,4 +37,7 @@ homepage:
 distcleancheck:
 	@:
 
-.PHONY: homepage distcleancheck
+deb:
+	dpkg-buildpackage -rfakeroot
+
+.PHONY: homepage distcleancheck deb
