@@ -10,7 +10,7 @@
 <body>
 <h1><a name="top">bidilink @PACKAGE_VERSION@</a></h1>
 
-<p><i>Copyright 2003 Lennart Poettering &lt;@PACKAGE_BUGREPORT@&gt;</i></p>
+<p><i>Copyright 2004 Lennart Poettering &lt;@PACKAGE_BUGREPORT@&gt;</i></p>
 
 <ul class="toc">
     <li><a href="#license">License</a></li>
