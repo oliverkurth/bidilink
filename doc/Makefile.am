@@ -16,25 +16,21 @@
 # along with bidilink; if not, write to the Free Software Foundation,
 # Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
 
-EXTRA_DIST=bootstrap.sh README LICENSE
-SUBDIRS=src doc # man
+noinst_DATA = README.html README
+EXTRA_DIST = $(noinst_DATA) style.css README.html.in
 
-MAINTAINERCLEANFILES = README
-noinst_DATA = README
+MAINTAINERCLEANFILES = README README.html
+CLEANFILES =
 
-README:
-	rm -f README
-	$(MAKE) -C doc README
-	cd $(srcdir) && ln -s doc/README README
+if USE_LYNX
+README: README.html
+	lynx --dump $^ | sed 's,file://localhost/.*/doc/README.html,README,' > $@
 
-homepage:
-	test -d $$HOME/homepage/lennart
-	mkdir -p $$HOME/homepage/lennart/projects/bidilink
-	cp *.tar.gz $$HOME/homepage/lennart/projects/bidilink
-	cp man/bidilink.8.xml man/xmltoman.css man/xmltoman.xsl man/xmltoman.dtd doc/style.css doc/README.html $$HOME/homepage/lennart/projects/aeswepd
-	cp $$HOME/homepage/lennart/projects/bidilink/README.html $$HOME/homepage/lennart/projects/aeswepd/index.html
+CLEANFILES += README
+endif
 
-distcleancheck:
-	@:
+tidy: README.html
+	tidy -e < README.html
 
-.PHONY: homepage distcleancheck
+.PHONY: tidy
+

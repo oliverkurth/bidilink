@@ -98,5 +98,5 @@ fi
 
 AM_CONDITIONAL([USE_XMLTOMAN], [test "x$xmltoman" = xyes])
 
-AC_CONFIG_FILES([src/Makefile Makefile]) # doc/Makefile man/Makefile doc/README.html])
+AC_CONFIG_FILES([src/Makefile Makefile doc/Makefile doc/README.html]) # man/Makefile ])
 AC_OUTPUT
