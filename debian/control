@@ -2,7 +2,7 @@ Source: bidilink
 Section: utils
 Priority: optional
 Maintainer: Lennart Poettering <mzovqvyvax@0pointer.de>
-Build-Depends: debhelper (>= 4.0.0), xmltoman, lynx
+Build-Depends: cdbs, debhelper (>= 4.0.0), xmltoman, lynx
 Standards-Version: 3.6.0
 
 Package: bidilink
