@@ -1,0 +1,23 @@
+Source: bidilink
+Section: utils
+Priority: optional
+Maintainer: Lennart Poettering <mzovqvyvax@0pointer.de>
+Build-Depends: debhelper (>= 4.0.0), xmltoman, lynx
+Standards-Version: 3.6.0
+
+Package: bidilink
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: a general purpose Unix tool for linking two bidirectional data streams
+ bidilink is a general purpose Unix tool for linking two bidirectional data streams.
+ It extends the standard Unix "filter" paradigma to bidrectional streams.
+ .
+ It has the following stream drivers:
+  * std: - STDIN, STDOUT of the process
+  * exec:PROGRAM - fork() off a process and use its STDIN and STDOUT
+  * tty:TTYDEVICE - Open a TTY device (like a serial port) as client
+  * pty:[PTYNAME] - Allocate a pseudo TTY device as master
+  * tcp-client:HOSTNAME:PORT - Connect to another or the local host via TCP/IP
+  * tcp-server:[IPADDRESS:]PORT - Listen on a local port and wait for an incoming connection
+  * unix-client:SOCKNAME - Connect to a local Unix domain socket
+  * unix-server:SOCKNAME - Listen on a local Unix domain socket
