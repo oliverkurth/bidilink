@@ -16,25 +16,22 @@
 # along with bidilink; if not, write to the Free Software Foundation,
 # Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
 
-EXTRA_DIST=bootstrap.sh README LICENSE
-SUBDIRS=src doc man
+man_MANS = bidilink.1
 
-MAINTAINERCLEANFILES = README
-noinst_DATA = README
+noinst_DATA = bidilink.1.xml 
 
-README:
-	rm -f README
-	$(MAKE) -C doc README
-	cd $(srcdir) && ln -s doc/README README
+EXTRA_DIST = $(man_MANS) bidilink.1.xml.in xmltoman.css xmltoman.xsl xmltoman.dtd
 
-homepage:
-	test -d $$HOME/homepage/lennart
-	mkdir -p $$HOME/homepage/lennart/projects/bidilink
-	cp *.tar.gz $$HOME/homepage/lennart/projects/bidilink
-	cp man/bidilink.1.xml man/xmltoman.css man/xmltoman.xsl man/xmltoman.dtd doc/style.css doc/README.html $$HOME/homepage/lennart/projects/bidilink
-	cp $$HOME/homepage/lennart/projects/bidilink/README.html $$HOME/homepage/lennart/projects/bidilink/index.html
+CLEANFILES = bidilink.1.xml
 
-distcleancheck:
-	@:
+bidilink.1.xml: bidilink.1.xml.in Makefile
+	sed -e 's,@PACKAGE_BUGREPORT\@,$(PACKAGE_BUGREPORT),g' -e 's,@PACKAGE_URL\@,$(PACKAGE_URL),g' $< > $@
 
-.PHONY: homepage distcleancheck
+if USE_XMLTOMAN
+
+CLEANFILES += $(man_MANS)
+
+bidilink.1: bidilink.1.xml Makefile
+	xmltoman $< > $@
+
+endif

@@ -51,7 +51,7 @@ static void usage(FILE *f, const char *argv0) {
             "\tstd:\n"
             "\texec:PROGRAM\n"
             "\ttty:TTYDEVICE\n"
-            "\tpty:PTYNAME\n"
+            "\tpty:[PTYSYMLINK]\n"
             "\ttcp-client:HOSTNAME:PORT\n"
             "\ttcp-server:[IPADDRESS:]PORT\n"
             "\tunix-client:SOCKNAME\n"

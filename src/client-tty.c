@@ -39,8 +39,6 @@
 
 #include "client-tty.h"
 
-#define LOCKDIR "/var/lock"
-
 static const char *lockfile(const char *dev) {
     static char lockfile[PATH_MAX];
     char *p = strrchr(dev, '/');

@@ -1,0 +1,117 @@
+<?xml version="1.0" standalone='no'?>
+<!DOCTYPE manpage SYSTEM "xmltoman.dtd">
+<?xml-stylesheet type="text/xsl" href="xmltoman.xsl" ?>
+
+<!-- $Id$ -->
+
+<!-- 
+  This file is part of bidilink.
+
+  bidilink is free software; you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free
+  Software Foundation; either version 2 of the License, or (at your
+  option) any later version.
+
+  bidilink is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+  for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with bidilink; if not, write to the Free Software Foundation,
+  Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA. 
+-->
+
+  <manpage name="bidilink" section="1" desc="Bidirectional stream linker">
+    
+	<synopsis>
+	  <cmd>bidilink [<opt>-v|--verbose</opt>] <arg>STREAM1</arg> [<arg>STREAM2</arg>]</cmd>
+      <cmd>bidilink <opt>-h|--help</opt></cmd>
+	</synopsis>
+	
+    <description>
+      <p>bidilink is a general purpose Unix tool for linking two
+      bidirectional data streams together. It extends the standard
+      Unix "filter" paradigma to bidrectional streams.</p>
+
+      <p>bidilink has support for several different drivers which may
+      be connected. You have to specify at least one, at most two of
+      them on the command line. If you specify just one driver the
+      second is automatically set to <opt>std:</opt>, which is the combination
+      of the process' STDIN and STDOUT.</p>
+
+      <p>Besides the order of initialization there is no difference in
+      specifying the stream specifications in a different order.</p>
+	</description>
+	
+	<options>
+	  
+	  <option>
+        <p><opt>-v | --verbose</opt></p>
+        <optdesc><p>Show throughput information on STDERR while running.</p></optdesc>
+	  </option>
+	  
+	  <option>
+		<p><opt>-h | --help</opt></p>
+		<optdesc><p>Show a terse usage information</p></optdesc>
+	  </option> 
+      
+	</options>
+
+    <section name="Drivers">
+
+      <p><opt>std:</opt> The process STDIN and STDOUT pipes. If you
+      connect the <opt>std:</opt> driver with itself, strange things
+      may happen.</p>
+      
+      <p><opt>exec:PROGRAM</opt> Fork off a process and use its STDIN
+      and STDOU pipes.</p>
+
+      <p><opt>tty:DEVICE</opt> Open a TTY device (like
+      <opt>/dev/ttyS0</opt>). If you want to change TTY parameters
+      (like baudrate) do so by calling <manref name="stty"
+      section="1"/> previous to running bidilink.</p>
+
+      <p><opt>pty:[PTYSYMLINK]</opt> Open a pseudo TTY (PTY) as master
+      and create a symbolic link to the slave device. If you omit the
+      symlink path the name of the PTY slave is written to STDERR.</p>
+
+      <p><opt>tcp-client:HOSTNAME:PORT</opt> Connect a TCP socket to a
+      remote host.</p>
+
+      <p><opt>tcp-server:[IPADDRESS:]PORT</opt> Listen a local port and
+      wait for an incoming connection. You may specify an IP adress to
+      listen on. If you omit that the default of 0.0.0.0 is selected,
+      i.e. listen on all local IP adresses. This driver is limited to
+      a single connection. After an incoming connection was
+      established bidilink will close the listening port.</p>
+
+      <p><opt>unix-client:SOCKNAME</opt> Make a stream connection to a
+      local Unix socket.</p>
+      
+      <p><opt>unix-server:SOCKNAME</opt> Listen on a local Unix
+      socket. This driver is limited to a single connection in the
+      same way as <opt>tcp-server:</opt></p>
+
+    </section>
+	
+	<section name="See also">
+	  <p>
+		<manref name="stty" section="1"/>
+	  </p>
+	</section>
+
+	<section name="Author">
+	  <p>bidilink was written by Lennart Poettering
+		&lt;@PACKAGE_BUGREPORT@&gt;. bidilink is available
+		at <url
+		href="@PACKAGE_URL@"/>
+	  </p>
+	</section>
+	
+	<section name="Comments">
+	  <p>This man page was written using <manref name="xmltoman" section="1"
+		  href="http://masqmail.cx/xml2man/"/> by Oliver Kurth.</p>
+	</section>
+	
+  </manpage>

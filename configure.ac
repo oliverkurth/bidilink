@@ -59,6 +59,18 @@ AC_CHECK_FUNCS([dup2 gethostbyname memset select socket strcspn strdup strerror]
 AC_HEADER_STDC
 AC_CHECK_HEADERS([arpa/inet.h fcntl.h inttypes.h netdb.h netinet/in.h stdlib.h string.h sys/socket.h termios.h unistd.h])
 
+# Where to place the UUCP lock directory
+AC_ARG_WITH(lockdir, AS_HELP_STRING(--with-lockdir=DIR,The UUCP lock directory (/var/lock)))
+
+if test "x$with_lockdir" = xyes -o "x$with_lockdir" = xno -o "x$with_lockdir" = x ; then
+    LOCKDIR="/var/lock"
+else
+    LOCKDIR="$with_lockdir"
+fi
+
+AC_MSG_NOTICE([*** UUCP lock directory is $LOCKDIR ***])
+AC_SUBST(LOCKDIR)
+
 # LYNX documentation generation
 AC_ARG_ENABLE(lynx,
         AS_HELP_STRING(--disable-lynx,Turn off lynx usage for documentation generation),
@@ -98,5 +110,5 @@ fi
 
 AM_CONDITIONAL([USE_XMLTOMAN], [test "x$xmltoman" = xyes])
 
-AC_CONFIG_FILES([src/Makefile Makefile doc/Makefile doc/README.html]) # man/Makefile ])
+AC_CONFIG_FILES([src/Makefile Makefile doc/Makefile doc/README.html man/Makefile])
 AC_OUTPUT

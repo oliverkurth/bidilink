@@ -82,6 +82,7 @@ LDFLAGS =
 LIBOBJS = 
 LIBS = 
 LN_S = ln -s
+LOCKDIR = /var/lock
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home/lennart/projects/bidilink/missing --run makeinfo
 OBJEXT = o
@@ -137,6 +138,8 @@ bidilink_SOURCES = bidilink.c client-tty.h exec.h server-tty.h std.h \
 	client-tcp.h client-unix.h server-tcp.h server-unix.h stream.h \
 	client-tty.c exec.c server-tty.c std.c
 
+
+bidilink_CFLAGS = -DLOCKDIR="\"$(LOCKDIR)\""
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -145,10 +148,12 @@ CONFIG_CLEAN_FILES =
 bin_PROGRAMS = bidilink$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
-am_bidilink_OBJECTS = bidilink.$(OBJEXT) client-tcp.$(OBJEXT) \
-	client-unix.$(OBJEXT) server-tcp.$(OBJEXT) \
-	server-unix.$(OBJEXT) stream.$(OBJEXT) client-tty.$(OBJEXT) \
-	exec.$(OBJEXT) server-tty.$(OBJEXT) std.$(OBJEXT)
+am_bidilink_OBJECTS = bidilink-bidilink.$(OBJEXT) \
+	bidilink-client-tcp.$(OBJEXT) bidilink-client-unix.$(OBJEXT) \
+	bidilink-server-tcp.$(OBJEXT) bidilink-server-unix.$(OBJEXT) \
+	bidilink-stream.$(OBJEXT) bidilink-client-tty.$(OBJEXT) \
+	bidilink-exec.$(OBJEXT) bidilink-server-tty.$(OBJEXT) \
+	bidilink-std.$(OBJEXT)
 bidilink_OBJECTS = $(am_bidilink_OBJECTS)
 bidilink_LDADD = $(LDADD)
 bidilink_DEPENDENCIES =
@@ -157,12 +162,16 @@ bidilink_LDFLAGS =
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-DEP_FILES = ./$(DEPDIR)/bidilink.Po \
-	./$(DEPDIR)/client-tcp.Po ./$(DEPDIR)/client-tty.Po \
-	./$(DEPDIR)/client-unix.Po ./$(DEPDIR)/exec.Po \
-	./$(DEPDIR)/server-tcp.Po ./$(DEPDIR)/server-tty.Po \
-	./$(DEPDIR)/server-unix.Po ./$(DEPDIR)/std.Po \
-	./$(DEPDIR)/stream.Po
+DEP_FILES = ./$(DEPDIR)/bidilink-bidilink.Po \
+	./$(DEPDIR)/bidilink-client-tcp.Po \
+	./$(DEPDIR)/bidilink-client-tty.Po \
+	./$(DEPDIR)/bidilink-client-unix.Po \
+	./$(DEPDIR)/bidilink-exec.Po \
+	./$(DEPDIR)/bidilink-server-tcp.Po \
+	./$(DEPDIR)/bidilink-server-tty.Po \
+	./$(DEPDIR)/bidilink-server-unix.Po \
+	./$(DEPDIR)/bidilink-std.Po \
+	./$(DEPDIR)/bidilink-stream.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -214,16 +223,16 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-include ./$(DEPDIR)/bidilink.Po
-include ./$(DEPDIR)/client-tcp.Po
-include ./$(DEPDIR)/client-tty.Po
-include ./$(DEPDIR)/client-unix.Po
-include ./$(DEPDIR)/exec.Po
-include ./$(DEPDIR)/server-tcp.Po
-include ./$(DEPDIR)/server-tty.Po
-include ./$(DEPDIR)/server-unix.Po
-include ./$(DEPDIR)/std.Po
-include ./$(DEPDIR)/stream.Po
+include ./$(DEPDIR)/bidilink-bidilink.Po
+include ./$(DEPDIR)/bidilink-client-tcp.Po
+include ./$(DEPDIR)/bidilink-client-tty.Po
+include ./$(DEPDIR)/bidilink-client-unix.Po
+include ./$(DEPDIR)/bidilink-exec.Po
+include ./$(DEPDIR)/bidilink-server-tcp.Po
+include ./$(DEPDIR)/bidilink-server-tty.Po
+include ./$(DEPDIR)/bidilink-server-unix.Po
+include ./$(DEPDIR)/bidilink-std.Po
+include ./$(DEPDIR)/bidilink-stream.Po
 
 .c.o:
 	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" \
@@ -246,6 +255,226 @@ include ./$(DEPDIR)/stream.Po
 #	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' \
 #	$(CCDEPMODE) $(depcomp) \
 #	$(COMPILE) -c `if test -f '$<'; then $(CYGPATH_W) '$<'; else $(CYGPATH_W) '$(srcdir)/$<'; fi`
+
+bidilink-bidilink.o: bidilink.c
+	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -MT bidilink-bidilink.o -MD -MP -MF "$(DEPDIR)/bidilink-bidilink.Tpo" \
+	  -c -o bidilink-bidilink.o `test -f 'bidilink.c' || echo '$(srcdir)/'`bidilink.c; \
+	then mv -f "$(DEPDIR)/bidilink-bidilink.Tpo" "$(DEPDIR)/bidilink-bidilink.Po"; \
+	else rm -f "$(DEPDIR)/bidilink-bidilink.Tpo"; exit 1; \
+	fi
+#	source='bidilink.c' object='bidilink-bidilink.o' libtool=no \
+#	depfile='$(DEPDIR)/bidilink-bidilink.Po' tmpdepfile='$(DEPDIR)/bidilink-bidilink.TPo' \
+#	$(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -c -o bidilink-bidilink.o `test -f 'bidilink.c' || echo '$(srcdir)/'`bidilink.c
+
+bidilink-bidilink.obj: bidilink.c
+	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -MT bidilink-bidilink.obj -MD -MP -MF "$(DEPDIR)/bidilink-bidilink.Tpo" \
+	  -c -o bidilink-bidilink.obj `if test -f 'bidilink.c'; then $(CYGPATH_W) 'bidilink.c'; else $(CYGPATH_W) '$(srcdir)/bidilink.c'; fi`; \
+	then mv -f "$(DEPDIR)/bidilink-bidilink.Tpo" "$(DEPDIR)/bidilink-bidilink.Po"; \
+	else rm -f "$(DEPDIR)/bidilink-bidilink.Tpo"; exit 1; \
+	fi
+#	source='bidilink.c' object='bidilink-bidilink.obj' libtool=no \
+#	depfile='$(DEPDIR)/bidilink-bidilink.Po' tmpdepfile='$(DEPDIR)/bidilink-bidilink.TPo' \
+#	$(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -c -o bidilink-bidilink.obj `if test -f 'bidilink.c'; then $(CYGPATH_W) 'bidilink.c'; else $(CYGPATH_W) '$(srcdir)/bidilink.c'; fi`
+
+bidilink-client-tcp.o: client-tcp.c
+	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -MT bidilink-client-tcp.o -MD -MP -MF "$(DEPDIR)/bidilink-client-tcp.Tpo" \
+	  -c -o bidilink-client-tcp.o `test -f 'client-tcp.c' || echo '$(srcdir)/'`client-tcp.c; \
+	then mv -f "$(DEPDIR)/bidilink-client-tcp.Tpo" "$(DEPDIR)/bidilink-client-tcp.Po"; \
+	else rm -f "$(DEPDIR)/bidilink-client-tcp.Tpo"; exit 1; \
+	fi
+#	source='client-tcp.c' object='bidilink-client-tcp.o' libtool=no \
+#	depfile='$(DEPDIR)/bidilink-client-tcp.Po' tmpdepfile='$(DEPDIR)/bidilink-client-tcp.TPo' \
+#	$(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -c -o bidilink-client-tcp.o `test -f 'client-tcp.c' || echo '$(srcdir)/'`client-tcp.c
+
+bidilink-client-tcp.obj: client-tcp.c
+	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -MT bidilink-client-tcp.obj -MD -MP -MF "$(DEPDIR)/bidilink-client-tcp.Tpo" \
+	  -c -o bidilink-client-tcp.obj `if test -f 'client-tcp.c'; then $(CYGPATH_W) 'client-tcp.c'; else $(CYGPATH_W) '$(srcdir)/client-tcp.c'; fi`; \
+	then mv -f "$(DEPDIR)/bidilink-client-tcp.Tpo" "$(DEPDIR)/bidilink-client-tcp.Po"; \
+	else rm -f "$(DEPDIR)/bidilink-client-tcp.Tpo"; exit 1; \
+	fi
+#	source='client-tcp.c' object='bidilink-client-tcp.obj' libtool=no \
+#	depfile='$(DEPDIR)/bidilink-client-tcp.Po' tmpdepfile='$(DEPDIR)/bidilink-client-tcp.TPo' \
+#	$(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -c -o bidilink-client-tcp.obj `if test -f 'client-tcp.c'; then $(CYGPATH_W) 'client-tcp.c'; else $(CYGPATH_W) '$(srcdir)/client-tcp.c'; fi`
+
+bidilink-client-unix.o: client-unix.c
+	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -MT bidilink-client-unix.o -MD -MP -MF "$(DEPDIR)/bidilink-client-unix.Tpo" \
+	  -c -o bidilink-client-unix.o `test -f 'client-unix.c' || echo '$(srcdir)/'`client-unix.c; \
+	then mv -f "$(DEPDIR)/bidilink-client-unix.Tpo" "$(DEPDIR)/bidilink-client-unix.Po"; \
+	else rm -f "$(DEPDIR)/bidilink-client-unix.Tpo"; exit 1; \
+	fi
+#	source='client-unix.c' object='bidilink-client-unix.o' libtool=no \
+#	depfile='$(DEPDIR)/bidilink-client-unix.Po' tmpdepfile='$(DEPDIR)/bidilink-client-unix.TPo' \
+#	$(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -c -o bidilink-client-unix.o `test -f 'client-unix.c' || echo '$(srcdir)/'`client-unix.c
+
+bidilink-client-unix.obj: client-unix.c
+	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -MT bidilink-client-unix.obj -MD -MP -MF "$(DEPDIR)/bidilink-client-unix.Tpo" \
+	  -c -o bidilink-client-unix.obj `if test -f 'client-unix.c'; then $(CYGPATH_W) 'client-unix.c'; else $(CYGPATH_W) '$(srcdir)/client-unix.c'; fi`; \
+	then mv -f "$(DEPDIR)/bidilink-client-unix.Tpo" "$(DEPDIR)/bidilink-client-unix.Po"; \
+	else rm -f "$(DEPDIR)/bidilink-client-unix.Tpo"; exit 1; \
+	fi
+#	source='client-unix.c' object='bidilink-client-unix.obj' libtool=no \
+#	depfile='$(DEPDIR)/bidilink-client-unix.Po' tmpdepfile='$(DEPDIR)/bidilink-client-unix.TPo' \
+#	$(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -c -o bidilink-client-unix.obj `if test -f 'client-unix.c'; then $(CYGPATH_W) 'client-unix.c'; else $(CYGPATH_W) '$(srcdir)/client-unix.c'; fi`
+
+bidilink-server-tcp.o: server-tcp.c
+	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -MT bidilink-server-tcp.o -MD -MP -MF "$(DEPDIR)/bidilink-server-tcp.Tpo" \
+	  -c -o bidilink-server-tcp.o `test -f 'server-tcp.c' || echo '$(srcdir)/'`server-tcp.c; \
+	then mv -f "$(DEPDIR)/bidilink-server-tcp.Tpo" "$(DEPDIR)/bidilink-server-tcp.Po"; \
+	else rm -f "$(DEPDIR)/bidilink-server-tcp.Tpo"; exit 1; \
+	fi
+#	source='server-tcp.c' object='bidilink-server-tcp.o' libtool=no \
+#	depfile='$(DEPDIR)/bidilink-server-tcp.Po' tmpdepfile='$(DEPDIR)/bidilink-server-tcp.TPo' \
+#	$(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -c -o bidilink-server-tcp.o `test -f 'server-tcp.c' || echo '$(srcdir)/'`server-tcp.c
+
+bidilink-server-tcp.obj: server-tcp.c
+	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -MT bidilink-server-tcp.obj -MD -MP -MF "$(DEPDIR)/bidilink-server-tcp.Tpo" \
+	  -c -o bidilink-server-tcp.obj `if test -f 'server-tcp.c'; then $(CYGPATH_W) 'server-tcp.c'; else $(CYGPATH_W) '$(srcdir)/server-tcp.c'; fi`; \
+	then mv -f "$(DEPDIR)/bidilink-server-tcp.Tpo" "$(DEPDIR)/bidilink-server-tcp.Po"; \
+	else rm -f "$(DEPDIR)/bidilink-server-tcp.Tpo"; exit 1; \
+	fi
+#	source='server-tcp.c' object='bidilink-server-tcp.obj' libtool=no \
+#	depfile='$(DEPDIR)/bidilink-server-tcp.Po' tmpdepfile='$(DEPDIR)/bidilink-server-tcp.TPo' \
+#	$(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -c -o bidilink-server-tcp.obj `if test -f 'server-tcp.c'; then $(CYGPATH_W) 'server-tcp.c'; else $(CYGPATH_W) '$(srcdir)/server-tcp.c'; fi`
+
+bidilink-server-unix.o: server-unix.c
+	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -MT bidilink-server-unix.o -MD -MP -MF "$(DEPDIR)/bidilink-server-unix.Tpo" \
+	  -c -o bidilink-server-unix.o `test -f 'server-unix.c' || echo '$(srcdir)/'`server-unix.c; \
+	then mv -f "$(DEPDIR)/bidilink-server-unix.Tpo" "$(DEPDIR)/bidilink-server-unix.Po"; \
+	else rm -f "$(DEPDIR)/bidilink-server-unix.Tpo"; exit 1; \
+	fi
+#	source='server-unix.c' object='bidilink-server-unix.o' libtool=no \
+#	depfile='$(DEPDIR)/bidilink-server-unix.Po' tmpdepfile='$(DEPDIR)/bidilink-server-unix.TPo' \
+#	$(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -c -o bidilink-server-unix.o `test -f 'server-unix.c' || echo '$(srcdir)/'`server-unix.c
+
+bidilink-server-unix.obj: server-unix.c
+	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -MT bidilink-server-unix.obj -MD -MP -MF "$(DEPDIR)/bidilink-server-unix.Tpo" \
+	  -c -o bidilink-server-unix.obj `if test -f 'server-unix.c'; then $(CYGPATH_W) 'server-unix.c'; else $(CYGPATH_W) '$(srcdir)/server-unix.c'; fi`; \
+	then mv -f "$(DEPDIR)/bidilink-server-unix.Tpo" "$(DEPDIR)/bidilink-server-unix.Po"; \
+	else rm -f "$(DEPDIR)/bidilink-server-unix.Tpo"; exit 1; \
+	fi
+#	source='server-unix.c' object='bidilink-server-unix.obj' libtool=no \
+#	depfile='$(DEPDIR)/bidilink-server-unix.Po' tmpdepfile='$(DEPDIR)/bidilink-server-unix.TPo' \
+#	$(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -c -o bidilink-server-unix.obj `if test -f 'server-unix.c'; then $(CYGPATH_W) 'server-unix.c'; else $(CYGPATH_W) '$(srcdir)/server-unix.c'; fi`
+
+bidilink-stream.o: stream.c
+	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -MT bidilink-stream.o -MD -MP -MF "$(DEPDIR)/bidilink-stream.Tpo" \
+	  -c -o bidilink-stream.o `test -f 'stream.c' || echo '$(srcdir)/'`stream.c; \
+	then mv -f "$(DEPDIR)/bidilink-stream.Tpo" "$(DEPDIR)/bidilink-stream.Po"; \
+	else rm -f "$(DEPDIR)/bidilink-stream.Tpo"; exit 1; \
+	fi
+#	source='stream.c' object='bidilink-stream.o' libtool=no \
+#	depfile='$(DEPDIR)/bidilink-stream.Po' tmpdepfile='$(DEPDIR)/bidilink-stream.TPo' \
+#	$(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -c -o bidilink-stream.o `test -f 'stream.c' || echo '$(srcdir)/'`stream.c
+
+bidilink-stream.obj: stream.c
+	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -MT bidilink-stream.obj -MD -MP -MF "$(DEPDIR)/bidilink-stream.Tpo" \
+	  -c -o bidilink-stream.obj `if test -f 'stream.c'; then $(CYGPATH_W) 'stream.c'; else $(CYGPATH_W) '$(srcdir)/stream.c'; fi`; \
+	then mv -f "$(DEPDIR)/bidilink-stream.Tpo" "$(DEPDIR)/bidilink-stream.Po"; \
+	else rm -f "$(DEPDIR)/bidilink-stream.Tpo"; exit 1; \
+	fi
+#	source='stream.c' object='bidilink-stream.obj' libtool=no \
+#	depfile='$(DEPDIR)/bidilink-stream.Po' tmpdepfile='$(DEPDIR)/bidilink-stream.TPo' \
+#	$(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -c -o bidilink-stream.obj `if test -f 'stream.c'; then $(CYGPATH_W) 'stream.c'; else $(CYGPATH_W) '$(srcdir)/stream.c'; fi`
+
+bidilink-client-tty.o: client-tty.c
+	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -MT bidilink-client-tty.o -MD -MP -MF "$(DEPDIR)/bidilink-client-tty.Tpo" \
+	  -c -o bidilink-client-tty.o `test -f 'client-tty.c' || echo '$(srcdir)/'`client-tty.c; \
+	then mv -f "$(DEPDIR)/bidilink-client-tty.Tpo" "$(DEPDIR)/bidilink-client-tty.Po"; \
+	else rm -f "$(DEPDIR)/bidilink-client-tty.Tpo"; exit 1; \
+	fi
+#	source='client-tty.c' object='bidilink-client-tty.o' libtool=no \
+#	depfile='$(DEPDIR)/bidilink-client-tty.Po' tmpdepfile='$(DEPDIR)/bidilink-client-tty.TPo' \
+#	$(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -c -o bidilink-client-tty.o `test -f 'client-tty.c' || echo '$(srcdir)/'`client-tty.c
+
+bidilink-client-tty.obj: client-tty.c
+	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -MT bidilink-client-tty.obj -MD -MP -MF "$(DEPDIR)/bidilink-client-tty.Tpo" \
+	  -c -o bidilink-client-tty.obj `if test -f 'client-tty.c'; then $(CYGPATH_W) 'client-tty.c'; else $(CYGPATH_W) '$(srcdir)/client-tty.c'; fi`; \
+	then mv -f "$(DEPDIR)/bidilink-client-tty.Tpo" "$(DEPDIR)/bidilink-client-tty.Po"; \
+	else rm -f "$(DEPDIR)/bidilink-client-tty.Tpo"; exit 1; \
+	fi
+#	source='client-tty.c' object='bidilink-client-tty.obj' libtool=no \
+#	depfile='$(DEPDIR)/bidilink-client-tty.Po' tmpdepfile='$(DEPDIR)/bidilink-client-tty.TPo' \
+#	$(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -c -o bidilink-client-tty.obj `if test -f 'client-tty.c'; then $(CYGPATH_W) 'client-tty.c'; else $(CYGPATH_W) '$(srcdir)/client-tty.c'; fi`
+
+bidilink-exec.o: exec.c
+	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -MT bidilink-exec.o -MD -MP -MF "$(DEPDIR)/bidilink-exec.Tpo" \
+	  -c -o bidilink-exec.o `test -f 'exec.c' || echo '$(srcdir)/'`exec.c; \
+	then mv -f "$(DEPDIR)/bidilink-exec.Tpo" "$(DEPDIR)/bidilink-exec.Po"; \
+	else rm -f "$(DEPDIR)/bidilink-exec.Tpo"; exit 1; \
+	fi
+#	source='exec.c' object='bidilink-exec.o' libtool=no \
+#	depfile='$(DEPDIR)/bidilink-exec.Po' tmpdepfile='$(DEPDIR)/bidilink-exec.TPo' \
+#	$(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -c -o bidilink-exec.o `test -f 'exec.c' || echo '$(srcdir)/'`exec.c
+
+bidilink-exec.obj: exec.c
+	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -MT bidilink-exec.obj -MD -MP -MF "$(DEPDIR)/bidilink-exec.Tpo" \
+	  -c -o bidilink-exec.obj `if test -f 'exec.c'; then $(CYGPATH_W) 'exec.c'; else $(CYGPATH_W) '$(srcdir)/exec.c'; fi`; \
+	then mv -f "$(DEPDIR)/bidilink-exec.Tpo" "$(DEPDIR)/bidilink-exec.Po"; \
+	else rm -f "$(DEPDIR)/bidilink-exec.Tpo"; exit 1; \
+	fi
+#	source='exec.c' object='bidilink-exec.obj' libtool=no \
+#	depfile='$(DEPDIR)/bidilink-exec.Po' tmpdepfile='$(DEPDIR)/bidilink-exec.TPo' \
+#	$(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -c -o bidilink-exec.obj `if test -f 'exec.c'; then $(CYGPATH_W) 'exec.c'; else $(CYGPATH_W) '$(srcdir)/exec.c'; fi`
+
+bidilink-server-tty.o: server-tty.c
+	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -MT bidilink-server-tty.o -MD -MP -MF "$(DEPDIR)/bidilink-server-tty.Tpo" \
+	  -c -o bidilink-server-tty.o `test -f 'server-tty.c' || echo '$(srcdir)/'`server-tty.c; \
+	then mv -f "$(DEPDIR)/bidilink-server-tty.Tpo" "$(DEPDIR)/bidilink-server-tty.Po"; \
+	else rm -f "$(DEPDIR)/bidilink-server-tty.Tpo"; exit 1; \
+	fi
+#	source='server-tty.c' object='bidilink-server-tty.o' libtool=no \
+#	depfile='$(DEPDIR)/bidilink-server-tty.Po' tmpdepfile='$(DEPDIR)/bidilink-server-tty.TPo' \
+#	$(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -c -o bidilink-server-tty.o `test -f 'server-tty.c' || echo '$(srcdir)/'`server-tty.c
+
+bidilink-server-tty.obj: server-tty.c
+	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -MT bidilink-server-tty.obj -MD -MP -MF "$(DEPDIR)/bidilink-server-tty.Tpo" \
+	  -c -o bidilink-server-tty.obj `if test -f 'server-tty.c'; then $(CYGPATH_W) 'server-tty.c'; else $(CYGPATH_W) '$(srcdir)/server-tty.c'; fi`; \
+	then mv -f "$(DEPDIR)/bidilink-server-tty.Tpo" "$(DEPDIR)/bidilink-server-tty.Po"; \
+	else rm -f "$(DEPDIR)/bidilink-server-tty.Tpo"; exit 1; \
+	fi
+#	source='server-tty.c' object='bidilink-server-tty.obj' libtool=no \
+#	depfile='$(DEPDIR)/bidilink-server-tty.Po' tmpdepfile='$(DEPDIR)/bidilink-server-tty.TPo' \
+#	$(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -c -o bidilink-server-tty.obj `if test -f 'server-tty.c'; then $(CYGPATH_W) 'server-tty.c'; else $(CYGPATH_W) '$(srcdir)/server-tty.c'; fi`
+
+bidilink-std.o: std.c
+	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -MT bidilink-std.o -MD -MP -MF "$(DEPDIR)/bidilink-std.Tpo" \
+	  -c -o bidilink-std.o `test -f 'std.c' || echo '$(srcdir)/'`std.c; \
+	then mv -f "$(DEPDIR)/bidilink-std.Tpo" "$(DEPDIR)/bidilink-std.Po"; \
+	else rm -f "$(DEPDIR)/bidilink-std.Tpo"; exit 1; \
+	fi
+#	source='std.c' object='bidilink-std.o' libtool=no \
+#	depfile='$(DEPDIR)/bidilink-std.Po' tmpdepfile='$(DEPDIR)/bidilink-std.TPo' \
+#	$(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -c -o bidilink-std.o `test -f 'std.c' || echo '$(srcdir)/'`std.c
+
+bidilink-std.obj: std.c
+	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -MT bidilink-std.obj -MD -MP -MF "$(DEPDIR)/bidilink-std.Tpo" \
+	  -c -o bidilink-std.obj `if test -f 'std.c'; then $(CYGPATH_W) 'std.c'; else $(CYGPATH_W) '$(srcdir)/std.c'; fi`; \
+	then mv -f "$(DEPDIR)/bidilink-std.Tpo" "$(DEPDIR)/bidilink-std.Po"; \
+	else rm -f "$(DEPDIR)/bidilink-std.Tpo"; exit 1; \
+	fi
+#	source='std.c' object='bidilink-std.obj' libtool=no \
+#	depfile='$(DEPDIR)/bidilink-std.Po' tmpdepfile='$(DEPDIR)/bidilink-std.TPo' \
+#	$(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bidilink_CFLAGS) $(CFLAGS) -c -o bidilink-std.obj `if test -f 'std.c'; then $(CYGPATH_W) 'std.c'; else $(CYGPATH_W) '$(srcdir)/std.c'; fi`
 uninstall-info-am:
 
 ETAGS = etags

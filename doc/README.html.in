@@ -60,7 +60,7 @@ bidirectional data streams together. It extends the standard Unix
   <li><tt>std:</tt> - <tt>STDIN</tt>, <tt>STDOUT</tt> of the process</li>
   <li><tt>exec:PROGRAM</tt> - <tt>fork()</tt> off a process and use its <tt>STDIN</tt> and <tt>STDOUT</tt></li>
   <li><tt>tty:TTYDEVICE</tt> - Open a TTY device (like a serial port) as client</li>
-  <li><tt>pty:PTYNAME</tt> - Allocate a pseudo TTY device as master</li>
+  <li><tt>pty:[PTYNAME]</tt> - Allocate a pseudo TTY device as master</li>
   <li><tt>tcp-client:HOSTNAME:PORT</tt> - Connect to another or the local host via TCP/IP</li>
   <li><tt>tcp-server:[IPADDRESS:]PORT</tt> - Listen on a local port and wait for an incoming connection</li>
   <li><tt>unix-client:SOCKNAME</tt> - Connect to a local Unix domain socket</li>
@@ -77,32 +77,32 @@ bidirectional data streams together. It extends the standard Unix
 
 <h2><a name="documentation">Documentation</a></h2>
 
-<p>Have a look on the man page <a href="@PACKAGE_URL@bidilink.1.xml"><tt>bidilink(1)</tt></a>. (An XSLT capable browser is required)</p>
+ <p>Have a look on the man page <a href="@PACKAGE_URL@bidilink.1.xml"><tt>bidilink(1)</tt></a>. (An XSLT capable browser is required)</p>
 
-<h3>Usage examples</h3>
+ <p><tt>bidilink</tt> may be used in several different ways. Some examples follow.</p>
 
-<p>Forward a serial port of another machine to a local pseudo TTY, which is compatible with <tt>pppd</tt> and <tt>minicom</tt>:</p>
+<h3>Forward a serial port of another machine to a local pseudo TTY</h3>
 
 <pre>bidilink "exec:ssh OTHERMACHINE bidilink tty:/dev/ttyS0" pty:/dev/rmodem</pre>
 
 <p><i>This will create a symbolic link <tt>/dev/rmodem</tt> to the
 allocated pseudo TTY device. Point your application to the device to
 use the forwarded port. This requires that <tt>bidilink</tt> is
-installed on both the local machine and the remote machine.</i></p>
+installed on both the local machine and the remote machine. The pseudo tty is compatible with <tt>pppd</tt> or <tt>minicom</tt>.</i></p>
 
-<p>Bind a local serial port to a local TCP port:</p>
+<h3>Bind a local serial port to a local TCP port</h3>
 
 <pre>bidilink tty:/dev/ttyS0 tcp-server:4711</pre>
 
 <p><i>Use <tt>telnet localhost 4711</tt> to connect to the device</i></p>
 
-<p>Bind a remote serial port to a local pseudo TTY:</p>
+<h3>Bind a remote TCP port to a local pseudo TTY</h3>
 
 <pre>bidilink pty:/dev/rmodem tcp-client:OTHERMACHINE:4711</pre>
 
 <p><i>This may be used as client to the server trick descibed above.</i></p>
 
-<p>Open a local Unix socket (<tt>SOCK_STREAM</tt>) to the Internet:</p>
+<h3>Open a local Unix socket (<tt>SOCK_STREAM</tt>) to the Internet:</h3>
 
 <pre>bidilink tcp-server:4711 unix-client:/tmp/.esd/socket</pre>
 
