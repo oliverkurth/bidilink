@@ -45,7 +45,18 @@ static void signal_handler(int s) {
 }
 
 static void usage(FILE *f, const char *argv0) {
-    fprintf(f, "%s [STREAM1] [STREAM2]\n", argv0);
+    fprintf(f,
+            "%s [-h|--help] [-v|--verbose] STREAM1 [STREAM2]\n\n"
+            "Supported stream types:\n"
+            "\tstd:\n"
+            "\texec:PROGRAM\n"
+            "\ttty:TTYDEVICE\n"
+            "\tpty:PTYNAME\n"
+            "\ttcp-client:HOSTNAME:PORT\n"
+            "\ttcp-server:[IPADDRESS:]PORT\n"
+            "\tunix-client:SOCKNAME\n"
+            "\tunix-server:SOCKNAME\n",
+            argv0);
 }
 
 static int read_fd(struct stream *s, void *buf, size_t *buf_fill, size_t *buf_index) {
@@ -132,11 +143,17 @@ int main(int argc, char *argv[]) {
 
     ai = 1;
 
-    if (!strcmp(argv[ai], "-v")) {
+    if (!strcmp(argv[ai], "-h") || !strcmp(argv[ai], "--help")) {
+        usage(stdout, argv[0]);
+        ret = 0;
+        goto finish;
+    }
+    
+    if (!strcmp(argv[ai], "-v") || !strcmp(argv[ai], "--verbose")) {
         verbose = 1;
         ai++;
     }
-    
+
     if (!(a = stream_open(argv[ai++])))
         goto finish;
 
