@@ -50,7 +50,12 @@ struct stream* stream_server_tty(const char *args) {
     assert(s);
     memset(s, 0, sizeof(struct stream));
 
-    if ((fd = open("/dev/ptmx", O_RDWR|O_NOCTTY)) < 0) {
+#ifdef HAVE_POSIX_OPENPT
+    fd = posix_openpt(O_RDWR|O_NOCTTY);
+#else
+    fd = open("/dev/ptmx", O_RDWR|O_NOCTTY);
+#endif
+    if (fd < 0) {
         fprintf(stderr, "open('/dev/ptmx', O_RDWR|O_NOCTTY): %s\n", strerror(errno));
         goto fail;
     }

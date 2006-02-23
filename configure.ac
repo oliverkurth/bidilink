@@ -53,7 +53,7 @@ AC_FUNC_FORK
 AC_FUNC_MALLOC
 AC_FUNC_SELECT_ARGTYPES
 AC_TYPE_SIGNAL
-AC_CHECK_FUNCS([dup2 gethostbyname memset select socket strcspn strdup strerror])
+AC_CHECK_FUNCS([dup2 gethostbyname memset select socket strcspn strdup strerror posix_openpt])
 
 # Checks for header files.
 AC_HEADER_STDC
