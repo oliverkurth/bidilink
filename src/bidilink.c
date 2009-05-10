@@ -54,6 +54,8 @@ static void usage(FILE *f, const char *argv0) {
             "\tpty:[PTYSYMLINK]\n"
             "\ttcp-client:HOSTNAME:PORT\n"
             "\ttcp-server:[IPADDRESS:]PORT\n"
+            "\ttcp6-client:HOSTNAME:PORT\n"
+            "\ttcp6-server:[IPADDRESS:]PORT\n"
             "\tunix-client:SOCKNAME\n"
             "\tunix-server:SOCKNAME\n",
             argv0);

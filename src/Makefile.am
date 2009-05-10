@@ -19,8 +19,8 @@
 bin_PROGRAMS = bidilink
 
 bidilink_SOURCES = bidilink.c client-tty.h exec.h server-tty.h std.h \
-	client-tcp.c client-unix.c server-tcp.c server-unix.c stream.c \
-	client-tcp.h client-unix.h server-tcp.h server-unix.h stream.h \
+	client-tcp.c client-tcp6.c client-unix.c server-tcp.c server-tcp6.c server-unix.c stream.c \
+	client-tcp.h client-tcp6.h client-unix.h server-tcp.h server-tcp6.h server-unix.h stream.h \
 	client-tty.c exec.c server-tty.c std.c
 
 bidilink_CFLAGS = -DLOCKDIR="\"$(LOCKDIR)\""

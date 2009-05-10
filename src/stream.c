@@ -34,7 +34,9 @@
 #include "client-tty.h"
 #include "server-tty.h"
 #include "client-tcp.h"
+#include "client-tcp6.h"
 #include "server-tcp.h"
+#include "server-tcp6.h"
 #include "client-unix.h"
 #include "server-unix.h"
 
@@ -49,8 +51,12 @@ struct stream* stream_open(const char *spec) {
         return stream_server_tty(spec+4);
     else if (!strncmp(spec, "tcp-client:", 11))
         return stream_client_tcp(spec+11);
+    else if (!strncmp(spec, "tcp6-client:", 12))
+        return stream_client_tcp6(spec+12);
     else if (!strncmp(spec, "tcp-server:", 11))
         return stream_server_tcp(spec+11);
+    else if (!strncmp(spec, "tcp6-server:", 12))
+        return stream_server_tcp6(spec+12);
     else if (!strncmp(spec, "unix-client:", 12))
         return stream_client_unix(spec+12);
     else if (!strncmp(spec, "unix-server:", 12))
